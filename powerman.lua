@@ -23,7 +23,7 @@ end
 
 --return stored power as a percentage of total
 function getPowerPerc()
---	pow = --method to get the stored power
---	max = --method to get max storable power
---	return ((pow/max)
+	pow = compStorage. --function to get the stored power
+	max = compStorage. --function to get max storable power
+	return (pow/max*100)
 end
