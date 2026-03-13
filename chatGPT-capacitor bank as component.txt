@@ -1,0 +1,120 @@
+When you connect an **Ender IO Capacitor Bank** to an **OpenComputers Adapter**, it exposes a much smaller API than reactors. The component name is usually:
+
+```
+component.capacitor_bank
+```
+
+(or accessed via `component.proxy(address)` if multiple exist).
+
+Below are the **functions typically exposed (OC 1.7.x + EnderIO integration)**.
+
+---
+
+# Capacitor Bank methods (OpenComputers)
+
+## Energy storage
+
+```lua
+getEnergyStored()
+```
+
+Returns the **current stored energy** (RF/FE).
+
+```lua
+getMaxEnergyStored()
+```
+
+Returns the **maximum storage capacity** of the multiblock capacitor bank.
+
+---
+
+## Input / output limits
+
+```lua
+getMaxInput()
+```
+
+Returns the **maximum RF/t the bank can accept**.
+
+```lua
+getMaxOutput()
+```
+
+Returns the **maximum RF/t the bank can output**.
+
+```lua
+setMaxInput(value)
+```
+
+Sets the **input limit** (same value you can edit in the GUI).
+
+```lua
+setMaxOutput(value)
+```
+
+Sets the **output limit**.
+
+---
+
+## Redstone control
+
+```lua
+getMode()
+```
+
+Returns the capacitor bank’s **redstone control mode**.
+
+```lua
+setMode(mode)
+```
+
+Sets the redstone mode.
+Typical values depend on version but commonly:
+
+```
+"alwaysOn"
+"neverOn"
+"redstoneOn"
+"redstoneOff"
+```
+
+---
+
+# Example usage
+
+```lua
+local component = require("component")
+local cap = component.capacitor_bank
+
+local stored = cap.getEnergyStored()
+local max = cap.getMaxEnergyStored()
+
+print("Energy:", stored .. " / " .. max)
+
+-- limit output
+cap.setMaxOutput(5000)
+```
+
+---
+
+# Useful trick: auto-detect methods
+
+Because modpacks sometimes change APIs, you can list them:
+
+```lua
+local component = require("component")
+local cap = component.capacitor_bank
+
+for k,v in pairs(cap) do
+  print(k)
+end
+```
+
+This prints **every function your pack exposes**, which is the safest way to check.
+
+---
+
+If you'd like, I can also show:
+
+* a **full Lua power controller** that throttles a **Big Reactors reactor based on capacitor bank charge**
+* or a **stable PID controller** that keeps your power grid around a target charge (very common OC setup).

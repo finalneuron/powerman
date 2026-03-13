@@ -1,0 +1,216 @@
+When you connect an **OpenComputers computer (usually via an Adapter) to a reactor computer port** from the Big Reactors (also used by its successor Extreme Reactors), the reactor exposes a **component API** with methods you can call from Lua. ([Feed The Beast Wiki][1])
+
+Below are the **main methods available (Big Reactors ~0.4.x API)**.
+
+---
+
+# Reactor methods exposed to OpenComputers
+
+## Basic status
+
+```lua
+getConnected()
+```
+
+Returns `true` if the computer port is connected to a valid multiblock reactor. ([Feed The Beast Wiki][1])
+
+```lua
+getActive()
+```
+
+Returns `true` if the reactor is currently running. ([Feed The Beast Wiki][1])
+
+```lua
+setActive(boolean)
+```
+
+Turns the reactor **on or off**. ([Feed The Beast Wiki][1])
+
+---
+
+# Temperature and reactor state
+
+```lua
+getFuelTemperature()
+```
+
+Temperature of the reactor fuel (°C). ([Feed The Beast Wiki][1])
+
+```lua
+getCasingTemperature()
+```
+
+Temperature of the reactor casing (°C). ([Feed The Beast Wiki][1])
+
+```lua
+isActivelyCooled()
+```
+
+Returns `true` if the reactor is using **active cooling (steam)**. ([Feed The Beast Wiki][1])
+
+---
+
+# Energy information
+
+```lua
+getEnergyStored()
+```
+
+RF stored in the reactor’s internal buffer. ([Feed The Beast Wiki][1])
+
+```lua
+getEnergyProducedLastTick()
+```
+
+RF generated in the last tick. ([Feed The Beast Wiki][1])
+
+---
+
+# Fuel and waste
+
+```lua
+getFuelAmount()
+```
+
+Amount of fuel in mB. ([Feed The Beast Wiki][1])
+
+```lua
+getWasteAmount()
+```
+
+Amount of waste in mB. ([Feed The Beast Wiki][1])
+
+```lua
+getFuelAmountMax()
+```
+
+Maximum capacity for fuel + waste. ([Feed The Beast Wiki][1])
+
+```lua
+getFuelConsumedLastTick()
+```
+
+Fuel usage last tick. ([Feed The Beast Wiki][1])
+
+```lua
+getFuelReactivity()
+```
+
+Fuel reactivity (percentage). ([Feed The Beast Wiki][1])
+
+```lua
+doEjectWaste()
+```
+
+Attempts to eject waste via output ports. ([Feed The Beast Wiki][1])
+
+```lua
+doEjectFuel()
+```
+
+Attempts to eject fuel. ([Feed The Beast Wiki][1])
+
+---
+
+# Control rods
+
+```lua
+getNumberOfControlRods()
+```
+
+Number of rods in the reactor. ([Feed The Beast Wiki][1])
+
+```lua
+getControlRodLevel(index)
+```
+
+Returns insertion level (0–100). ([Feed The Beast Wiki][1])
+
+```lua
+setControlRodLevel(index, level)
+```
+
+Set insertion level of one rod. ([Feed The Beast Wiki][1])
+
+```lua
+setAllControlRodLevels(level)
+```
+
+Set insertion level of all rods. ([Feed The Beast Wiki][1])
+
+```lua
+getControlRodName(index)
+setControlRodName(index, name)
+```
+
+Get/set rod name. ([Feed The Beast Wiki][1])
+
+```lua
+getControlRodLocation(index)
+```
+
+Returns coordinates of the rod. ([Feed The Beast Wiki][1])
+
+---
+
+# Fluid / coolant (active-cooled reactors)
+
+```lua
+getHotFluidProducedLastTick()
+```
+
+Steam produced last tick. ([Feed The Beast Wiki][1])
+
+```lua
+getCoolantType()
+getCoolantAmount()
+```
+
+Coolant type and amount. ([Feed The Beast Wiki][1])
+
+```lua
+getHotFluidType()
+getHotFluidAmount()
+```
+
+Steam tank info. ([Feed The Beast Wiki][1])
+
+---
+
+# Reactor structure info
+
+```lua
+getMinimumCoordinate()
+getMaximumCoordinate()
+```
+
+Return the bounding coordinates of the reactor. ([Feed The Beast Wiki][1])
+
+---
+
+**Typical OpenComputers usage example**
+
+```lua
+local component = require("component")
+local reactor = component.br_reactor
+
+print("Energy:", reactor.getEnergyStored())
+
+if reactor.getEnergyStored() < 5000000 then
+  reactor.setActive(true)
+else
+  reactor.setActive(false)
+end
+```
+
+---
+
+**Tip:**
+If you're unsure which methods are available in your pack, you can list them at runtime:
+
+```lua
+local component = require("component")
+for k,v in pairs(component.br_reactor) do
+  print(k)
+end
+```
