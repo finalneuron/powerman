@@ -7,23 +7,23 @@ MINCHARGE = 20	--Percentage
 MAXCHARGE = 80	--Percentage
 powerPerc = 0	--Percentage
 
-compStorage = --power storage device
-compReactor = --reactor device
+compStorage = --power storage component
+compReactor = --reactor component
 
-loop
+while true do
 	powerPerc = getPowerPerc()
 	if powerPerc < MINCHARGE and !isRunning
     isRunning = true
---	compReactor.power(on)???
+	compReactor.setActive(isRunning)
 	else if powerPerc > MAXCHARGE and isRunning
     isRunning = false
---	compReactor.power(on)???
+	compReactor.setActive(isRunning)
 	end
 end
 
-getPowerPerc()
 --return stored power as a percentage of total
+function getPowerPerc()
 --	pow = --method to get the stored power
 --	max = --method to get max storable power
---	return (round(pow/max))
+--	return ((pow/max)
 end
