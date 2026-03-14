@@ -2,13 +2,14 @@
 --Manages the BigReactor to maintain proper energy
 --storage charge levels.
 
-isRunning = false
-MINCHARGE = 20	--Percentage
-MAXCHARGE = 80	--Percentage
-powerPerc = 0	--Percentage
+local isRunning = false
+local MINCHARGE = 20	--Percentage
+local MAXCHARGE = 80	--Percentage
+local powerPerc = 0		--Percentage
 
-compStorage = --power storage component
-compReactor = --reactor component
+local component = require("component")
+local compStorage = component.capacitor_bank
+local compReactor = component.br_reactor
 
 while true do
 	powerPerc = getPowerPerc()
@@ -23,7 +24,7 @@ end
 
 --return stored power as a percentage of total
 function getPowerPerc()
-	pow = compStorage. --function to get the stored power
-	max = compStorage. --function to get max storable power
+	pow = compStorage.getEnergyStored() --function to get the stored power
+	max = compStorage.getMaxEnergyStored() --function to get max storable power
 	return (pow/max*100)
 end
